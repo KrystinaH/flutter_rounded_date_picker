@@ -162,6 +162,7 @@ class FlutterRoundedDayPicker extends StatelessWidget {
   List<Widget> _getDayHeaders(
     TextStyle headerStyle,
     MaterialLocalizations localizations,
+    BuildContext context
   ) {
     final List<Widget> result = <Widget>[];
     if (customWeekDays != null) {
@@ -170,6 +171,7 @@ class FlutterRoundedDayPicker extends StatelessWidget {
           child: Center(
               child: Text(
             i < customWeekDays.length ? customWeekDays[i] : "",
+            textScaleFactor: MediaQuery.of(context).textScaleFactor > 2 ? 2 : MediaQuery.of(context).textScaleFactor,
             style: headerStyle,
           )),
         ));
@@ -181,6 +183,7 @@ class FlutterRoundedDayPicker extends StatelessWidget {
           child: Center(
               child: Text(
             weekday,
+            textScaleFactor: MediaQuery.of(context).textScaleFactor > 2 ? 2 : MediaQuery.of(context).textScaleFactor,
             style: headerStyle,
           )),
         ));
@@ -279,7 +282,7 @@ class FlutterRoundedDayPicker extends StatelessWidget {
       localizations,
     );
 
-    final List<Widget> labels = _getDayHeaders(style?.textStyleDayHeader ?? themeData.textTheme.caption, localizations);
+    final List<Widget> labels = _getDayHeaders(style?.textStyleDayHeader ?? themeData.textTheme.caption, localizations, context);
     for (int i = 0; true; i += 1) {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.
@@ -340,6 +343,8 @@ class FlutterRoundedDayPicker extends StatelessWidget {
 
         dayWidget = dayWidget ??
             Container(
+              height: 48,
+              width: 48,
               decoration: decoration,
               child: Center(
                 child: Semantics(
@@ -355,6 +360,7 @@ class FlutterRoundedDayPicker extends StatelessWidget {
                   child: ExcludeSemantics(
                     child: Text(
                       localizations.formatDecimal(day),
+                      textScaleFactor: MediaQuery.of(context).textScaleFactor > 1.5 ? 1.5 : MediaQuery.of(context).textScaleFactor,
                       style: itemStyle,
                     ),
                   ),
@@ -409,11 +415,12 @@ class FlutterRoundedDayPicker extends StatelessWidget {
             decoration: BoxDecoration(
                 color: style?.backgroundHeaderMonth, borderRadius: orientation == Orientation.landscape ? BorderRadius.only(topRight: Radius.circular(borderRadius)) : null),
             padding: style?.paddingMonthHeader,
-//            height: _kDayPickerRowHeight,
+           height: _kDayPickerRowHeight,
             child: Center(
               child: ExcludeSemantics(
                 child: Text(
                   monthYearHeader,
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor > 1.7 ? 1.7 : MediaQuery.of(context).textScaleFactor,
                   style: style?.textStyleMonthYearHeader ??
                       themeData.textTheme.subhead.copyWith(
                         fontFamily: fontFamily,

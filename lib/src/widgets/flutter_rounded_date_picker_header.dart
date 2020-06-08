@@ -47,6 +47,8 @@ class FlutterRoundedDatePickerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double sizeMultiplier = MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.width / 320 : MediaQuery.of(context).size.width / 568;
+
     final MaterialLocalizations localizations = MaterialLocalizations.of(context);
     final ThemeData themeData = Theme.of(context);
     final TextTheme headerTextTheme = themeData.primaryTextTheme;
@@ -71,8 +73,8 @@ class FlutterRoundedDatePickerHeader extends StatelessWidget {
       style?.textStyleDayButton = style?.textStyleDayButton?.copyWith(fontFamily: fontFamily);
     }
 
-    final TextStyle dayStyle = style?.textStyleDayButton ?? headerTextTheme.display1.copyWith(color: dayColor, fontFamily: fontFamily);
-    final TextStyle yearStyle = style?.textStyleYearButton ?? headerTextTheme.subhead.copyWith(color: yearColor, fontFamily: fontFamily);
+    final TextStyle dayStyle = style?.textStyleDayButton ?? headerTextTheme.display1.copyWith(color: dayColor, fontFamily: fontFamily, fontSize: 20 * sizeMultiplier);
+    final TextStyle yearStyle = style?.textStyleYearButton ?? headerTextTheme.subhead.copyWith(color: yearColor, fontFamily: fontFamily, fontSize: 16 * sizeMultiplier);
 
     Color backgroundColor;
     switch (themeData.brightness) {
@@ -88,11 +90,11 @@ class FlutterRoundedDatePickerHeader extends StatelessWidget {
     MainAxisAlignment mainAxisAlignment;
     switch (orientation) {
       case Orientation.portrait:
-        padding = style?.paddingDateYearHeader ?? EdgeInsets.all(16.0);
+        padding = style?.paddingDateYearHeader ?? EdgeInsets.symmetric(horizontal: 16.0);
         mainAxisAlignment = MainAxisAlignment.center;
         break;
       case Orientation.landscape:
-        padding = style?.paddingDateYearHeader ?? EdgeInsets.all(8.0);
+        padding = style?.paddingDateYearHeader ?? EdgeInsets.symmetric(horizontal: 8.0);
         mainAxisAlignment = MainAxisAlignment.start;
         break;
     }
@@ -110,6 +112,7 @@ class FlutterRoundedDatePickerHeader extends StatelessWidget {
           selected: mode == DatePickerMode.year,
           child: Text(
             "${calculateYearEra(era, selectedDate.year)}",
+            textScaleFactor: MediaQuery.of(context).textScaleFactor > 2 ? 2 : MediaQuery.of(context).textScaleFactor,
             style: yearStyle,
           ),
         ),
@@ -129,7 +132,7 @@ class FlutterRoundedDatePickerHeader extends StatelessWidget {
           selected: mode == DatePickerMode.day,
           child: Text(
             localizations.formatMediumDate(selectedDate),
-            textScaleFactor: 1,
+            textScaleFactor: MediaQuery.of(context).textScaleFactor > 1.6 ? 1.6 : MediaQuery.of(context).textScaleFactor,
             style: dayStyle,
           ),
         ),
@@ -208,8 +211,15 @@ class _DateHeaderButton extends StatelessWidget {
         splashColor: theme.splashColor,
         onTap: onTap,
         child: Container(
+          constraints: BoxConstraints(minHeight: 48),
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: child,
+          child: 
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                child
+            ])
         ),
       ),
     );

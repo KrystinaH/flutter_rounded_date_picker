@@ -296,6 +296,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
             top: widget.style?.marginLeftArrowPrevious ?? 0.0,
             start: widget.style?.marginLeftArrowPrevious ?? 8.0,
             child: Semantics(
+              label: _isDisplayingFirstMonth ? '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}' : "",
               sortKey: _MonthPickerSortKey.previousMonth,
               child: FadeTransition(
                 opacity: _chevronOpacityAnimation,
@@ -308,7 +309,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
                   tooltip: _isDisplayingFirstMonth
                       ? null
                       : '${localizations.previousMonthTooltip} ${localizations.formatMonthYear(_previousMonthDate)}',
-                  onPressed: _isDisplayingFirstMonth == true ? null : _handlePreviousMonth,
+                  onPressed: _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
               ),
             ),
@@ -319,6 +320,7 @@ class _FlutterRoundedMonthPickerState extends State<FlutterRoundedMonthPicker> w
             top: widget.style?.marginTopArrowNext ?? 0.0,
             end: widget.style?.marginRightArrowNext ?? 8.0,
             child: Semantics(
+              label: _isDisplayingLastMonth ? '${localizations.nextMonthTooltip} ${localizations.formatMonthYear(_nextMonthDate)}' : "",
               sortKey: _MonthPickerSortKey.nextMonth,
               child: FadeTransition(
                 opacity: _chevronOpacityAnimation,

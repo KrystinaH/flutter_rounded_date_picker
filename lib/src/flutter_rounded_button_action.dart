@@ -32,7 +32,7 @@ class FlutterRoundedButtonAction extends StatelessWidget {
       this.background})
       : super(key: key);
 
-  List<Widget> _buildActionsButton(bool isActionButton) {
+  List<Widget> _buildActionsButton(bool isActionButton, BuildContext context) {
     final Widget leftButton = isActionButton
         ? FlatButton(
             child: Text(textActionButton, style: textStyleButtonAction),
@@ -41,18 +41,38 @@ class FlutterRoundedButtonAction extends StatelessWidget {
         : null;
 
     final Widget negativeButton = FlatButton(
-      child: Text(
-        textButtonNegative ?? localizations.cancelButtonLabel,
-        style: textStyleButtonNegative,
-      ),
+      child: 
+        Container(
+          height: 48,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                textButtonNegative ?? localizations.cancelButtonLabel,
+                textScaleFactor: MediaQuery.of(context).textScaleFactor > 2 ? 2 : MediaQuery.of(context).textScaleFactor,
+                style: textStyleButtonNegative,
+              )
+            ])
+        ),
       onPressed: onTapButtonNegative,
     );
 
     final Widget positiveButton = FlatButton(
-      child: Text(
-        textButtonPositive ?? localizations.okButtonLabel,
-        style: textStyleButtonPositive,
-      ),
+      child: 
+        Container(
+          height: 48,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                textButtonPositive ?? localizations.okButtonLabel,
+                textScaleFactor: MediaQuery.of(context).textScaleFactor > 2 ? 2 : MediaQuery.of(context).textScaleFactor,
+                style: textStyleButtonPositive,
+              )
+            ])
+        ),
       onPressed: onTapButtonPositive,
     );
 
@@ -77,7 +97,7 @@ class FlutterRoundedButtonAction extends StatelessWidget {
               orientation == Orientation.landscape ? BorderRadius.only(bottomRight: Radius.circular(borderRadius)) : BorderRadius.vertical(bottom: Radius.circular(borderRadius))),
       child: ButtonBar(
         alignment: textActionButton != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
-        children: _buildActionsButton(textActionButton != null),
+        children: _buildActionsButton(textActionButton != null, context),
       ),
     );
   }
